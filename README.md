@@ -8,7 +8,7 @@ case-study page with a next-project link, and there is a full about page.
 
 ## Run it
 
-```sh
+```shh
 bun install
 bun run dev        # http://localhost:5173
 bun run build      # dist/client (assets) + dist/portfolio/index.js (Worker)
