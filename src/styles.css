@@ -1,0 +1,197 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/bricolage-grotesque';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', 'Roboto Mono', Menlo, monospace;
+
+  /* A cold console: near-black canvas, signal text, one electric accent. */
+  --color-bg: #07090f;
+  --color-surface: #0b0f18;
+  --color-surface-2: #10161f;
+  --color-line: #1c2431;
+  --color-line-strong: #2b3747;
+  --color-fg: #e7eef7;
+  --color-muted: #8a9ab0;
+  --color-faint: #5a6a80;
+  --color-accent: #3ce0ff;
+  --color-accent-2: #a273ff;
+
+  --radius-control: 14px;
+  --radius-card: 24px;
+  --radius-image: 28px;
+
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-drift-a: drift-a 22s ease-in-out infinite alternate;
+  --animate-drift-b: drift-b 26s ease-in-out infinite alternate;
+  --animate-drift-c: drift-c 30s ease-in-out infinite alternate;
+  --animate-scan: scan 11s linear infinite;
+  --animate-pulse-soft: pulse-soft 3.4s ease-in-out infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes drift-a {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(-10%, 12%, 0) scale(1.12); }
+  }
+  @keyframes drift-b {
+    from { transform: translate3d(0, 0, 0) scale(1.05); }
+    to { transform: translate3d(14%, -8%, 0) scale(0.95); }
+  }
+  @keyframes drift-c {
+    from { transform: translate3d(0, 6%, 0) scale(0.95); }
+    to { transform: translate3d(-8%, -10%, 0) scale(1.15); }
+  }
+  @keyframes scan {
+    0% { transform: translateY(-4%); opacity: 0; }
+    12% { opacity: 0.9; }
+    88% { opacity: 0.9; }
+    100% { transform: translateY(110svh); opacity: 0; }
+  }
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgb(60 224 255 / 0.45); }
+    50% { opacity: 0.72; box-shadow: 0 0 0 5px rgb(60 224 255 / 0); }
+  }
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    corner-shape: squircle;
+    border-color: var(--color-line);
+  }
+  .round,
+  .round::before,
+  .round::after {
+    corner-shape: round;
+  }
+  html {
+    background: var(--color-bg);
+    color-scheme: dark;
+    overscroll-behavior-y: none;
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    letter-spacing: -0.008em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+  button,
+  input,
+  textarea {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+  img {
+    user-select: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Display type: Bricolage's optical size and width axes give it character at
+   scale; keep the tracking tight and the leading tighter. */
+@utility font-display {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 96, 'wdth' 100;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+
+@utility font-display-wide {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 96, 'wdth' 112;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+@utility text-pretty {
+  text-wrap: pretty;
+}
+
+/* Instrument-panel labelling: small, spaced, monospaced, uppercase. */
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+}
+
+/* Underline that draws in from the left on hover. */
+@utility link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* Faint plotting grid: the page reads as a surface something is measured on. */
+@utility grid-field {
+  background-image:
+    linear-gradient(to right, rgb(120 180 255 / 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(120 180 255 / 0.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: center center;
+}
+
+@utility image-frame {
+  background: var(--color-surface-2);
+  overflow: hidden;
+  & img {
+    filter: saturate(0.72) contrast(1.06) brightness(0.92);
+    transition: filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  &:hover img {
+    filter: saturate(0.95) contrast(1.05) brightness(1);
+  }
+}
+
+/* Cool gradient across the hero name, so it reads as a screen, not ink. */
+@utility text-signal {
+  background-image: linear-gradient(104deg, #ffffff 0%, #dae6f4 36%, #8febff 72%, #b79cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Sensor noise over the hero's colour field. */
+@utility grain {
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.8 0 0 0 0 0.9 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
