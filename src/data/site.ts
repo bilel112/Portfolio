@@ -9,7 +9,8 @@ export const site = {
   available: true,
   intro: 'I build AI systems on top of real data: machine learning models, LLM and RAG pipelines, and the interfaces that make their output usable by whoever has to act on it.',
   socials: [
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/bilel-brini' },
+    { label: 'GitHub', href: 'https://github.com/bilel112' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/bilel-brini-55906027b/' },
     { label: 'Email', href: 'mailto:bilel.brini@esprit.tn' },
   ],
   marquee: [
