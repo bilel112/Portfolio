@@ -31,6 +31,16 @@ bun run build      # dist/client (assets) + dist/portfolio/index.js (Worker)
 
 Motion respects `prefers-reduced-motion`, and the preloader runs once per tab.
 
+## Deploy on Vercel
+
+Push the project to GitHub, then import the repository in Vercel. The included
+`vercel.json` configures the Vite build output and client-side routes. Vercel
+will deploy the site and create a public `*.vercel.app` URL; future pushes to
+the connected branch trigger new deployments.
+
+The contact form opens the visitor's default email app with the message
+pre-filled, so no server-side email service or secret is required.
+
 ## Deploy with Freebuff Sites
 
 `deploy.json` points at the build output. After `bun run build`, deploy with

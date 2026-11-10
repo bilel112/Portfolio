@@ -54,9 +54,9 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'turnover',
-    title: 'Turnover Analytics',
+    title: 'Turnover Prediction',
     client: 'Ooredoo HR',
-    category: 'HR analytics',
+    category: 'Predictive modelling',
     year: '2026',
     cover: '/images/Turnover/DashboardPowerBi.png',
     coverAspectRatio: '1075 / 582',
@@ -70,11 +70,11 @@ export const projects: Project[] = [
       { src: '/images/Turnover/SuiviActionsRH.png', alt: 'HR action tracking with completion status and score history', aspectRatio: '1465 / 698' },
     ],
     tint: '#0a1422',
-    summary: 'An HR analytics platform that combines explainable turnover risk scoring, separate machine-learning predictions and practical retention follow-up tools.',
-    role: ['HR analytics', 'Machine learning', 'Full-stack'],
+    summary: 'A turnover prediction system that estimates employee attrition risk with machine-learning models, supported by explainable scoring and HR follow-up tools.',
+    role: ['Attrition prediction', 'Machine learning', 'Full-stack'],
     deliverables: ['React + Spring Boot HR platform', 'Explainable 0–100 business risk scoring', 'FastAPI Logistic Regression and SVM prediction service', 'Alerts, recommendations and HR action tracking'],
     body: [
-      'Turnover Analytics brings employee records, attrition dashboards and retention follow-up into one HR application. Its configurable business score is separate from the ML predictions: it adds interpretable points across eight factors such as tenure, overtime, satisfaction and promotion history, then shows the reasons behind each risk band.',
+      'Turnover Prediction estimates employee attrition risk from HR data and presents the results in an HR application. Alongside the ML predictions, a separate configurable business score adds interpretable points across eight factors such as tenure, overtime, satisfaction and promotion history, then shows the reasons behind each risk band.',
       'A separate FastAPI service serves Logistic Regression and RBF-kernel SVM models with saved preprocessing and model-specific thresholds. On the documented holdout set, Logistic Regression reached 85.0% accuracy and 0.811 ROC-AUC; SVM reached 85.7% accuracy and 0.811 ROC-AUC. These are dataset-specific reference results, not guarantees. MLP, LSTM and TabNet are notebook experiments, not models served by the current API.',
       'The React frontend and Spring Boot API support employee management, score simulation and history, configurable alerts, HR actions, and employee-specific recommendations. Optional AI recommendations and HR-assistant responses use OpenRouter when configured, with a business-rule fallback; risk scores and predictions are decision-support signals for HR, not standalone grounds for employment decisions.',
     ],
@@ -222,7 +222,7 @@ export const services = [
 ]
 
 export const experience = [
-  { period: 'Jun to Aug 2026', title: 'Ooredoo Tunisie', detail: 'Internship: turnover prediction and HR analytics' },
+  { period: 'Jun to Aug 2026', title: 'Ooredoo Tunisie', detail: 'Internship: employee turnover prediction' },
   { period: 'Jun to Aug 2025', title: 'Capgemini', detail: 'Internship: real-time facial emotion recognition' },
 ]
 

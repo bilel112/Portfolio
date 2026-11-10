@@ -10,6 +10,12 @@ import { useLocalTime } from '../components/Nav'
 import { cx } from '../lib/cx'
 
 const ease = [0.22, 1, 0.36, 1] as const
+const homeProjectOrder = ['grant-panel', 'alia', 'traffic', 'turnover', 'emotion', 'tb-detect']
+const homeProjects = homeProjectOrder.map((slug) => {
+  const project = projects.find((item) => item.slug === slug)
+  if (!project) throw new Error(`Home project not found: ${slug}`)
+  return project
+})
 
 export function Home() {
   const time = useLocalTime()
@@ -81,7 +87,7 @@ export function Home() {
           </Reveal>
         </div>
         <div className="mt-12 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:gap-x-8 lg:gap-y-20">
-          {projects.map((p, i) => (
+          {homeProjects.map((p, i) => (
             <WorkCard key={p.slug} project={p} index={i} />
           ))}
         </div>

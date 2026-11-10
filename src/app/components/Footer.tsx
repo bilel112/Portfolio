@@ -8,18 +8,14 @@ import { useLocalTime } from './Nav'
 export function Footer() {
   const time = useLocalTime()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
-  const [error, setError] = useState('')
+  const [state, setState] = useState<'idle' | 'done'>('idle')
 
-  async function submit(e: FormEvent) {
+  function submit(e: FormEvent) {
     e.preventDefault()
-    setState('sending')
-    const response = await fetch('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(form) })
-    if (response.ok) setState('done')
-    else {
-      setState('error')
-      setError(((await response.json()) as { error?: string }).error ?? 'Something went wrong.')
-    }
+    const subject = encodeURIComponent(`Portfolio inquiry from ${form.name}`)
+    const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name}\nEmail: ${form.email}`)
+    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`
+    setState('done')
   }
 
   const field = 'h-14 w-full rounded-control border border-line-strong bg-surface/60 px-5 text-[15px] placeholder:text-faint transition-colors focus:border-accent focus:outline-none'
@@ -46,8 +42,8 @@ export function Footer() {
           <Reveal delay={0.15}>
             {state === 'done' ? (
               <div className="flex h-full min-h-[320px] flex-col justify-center rounded-card bg-surface-2/60 p-8">
-                <p className="font-display text-[36px]">Thank you</p>
-                <p className="mt-2 text-[15px] text-muted">I read everything myself and reply within two days.</p>
+                <p className="font-display text-[36px]">Almost there</p>
+                <p className="mt-2 text-[15px] text-muted">Your email app should open with the message ready. Send it there to get in touch.</p>
               </div>
             ) : (
               <form onSubmit={submit} className="flex flex-col gap-3">
@@ -62,10 +58,9 @@ export function Footer() {
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                 />
-                <button type="submit" disabled={state === 'sending'} className="h-14 rounded-control border border-line-strong text-[15px] font-medium transition-colors hover:border-accent hover:bg-accent hover:text-bg disabled:opacity-50">
+                <button type="submit" className="h-14 rounded-control border border-line-strong text-[15px] font-medium transition-colors hover:border-accent hover:bg-accent hover:text-bg">
                   Send
                 </button>
-                {state === 'error' && <p className="text-[13px] text-accent">{error}</p>}
               </form>
             )}
           </Reveal>
