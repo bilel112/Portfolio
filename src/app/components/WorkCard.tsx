@@ -33,10 +33,7 @@ export function WorkCard({ project, index = 0 }: { project: Project; index?: num
           y.set(e.clientY - rect.top)
         }}
       >
-        <div
-          className={cx('relative overflow-hidden rounded-image', project.cover ? '' : project.size === 'large' ? 'aspect-[16/10]' : 'aspect-[4/5] md:aspect-[4/4.6]')}
-          style={{ background: project.tint, aspectRatio: project.cover ? project.coverAspectRatio ?? '2 / 1' : undefined }}
-        >
+        <div className="relative aspect-[1273/638] overflow-hidden rounded-image" style={{ background: project.tint }}>
           <span className="mono-label absolute left-4 top-4 z-10 rounded-full border border-fg/15 bg-bg/45 px-2.5 py-1 tabular-nums text-fg/75 backdrop-blur-sm">
             {String(index + 1).padStart(2, '0')}
           </span>

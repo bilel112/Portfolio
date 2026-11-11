@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
-import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, X } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router'
+import { useEffect, useRef, useState } from 'react'
 
 import { bySlug, projects } from '../../data/site'
 import { Lines, Parallax, Reveal } from '../components/motion'
@@ -9,8 +10,17 @@ import { ProjectVisual } from '../components/ProjectVisual'
 const ease = [0.22, 1, 0.36, 1] as const
 
 export function Work() {
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null)
+  const imageDialog = useRef<HTMLDialogElement>(null)
   const { slug } = useParams()
   const project = slug ? bySlug(slug) : undefined
+  useEffect(() => {
+    const dialog = imageDialog.current
+    if (!selectedImage || !dialog) return
+    dialog.showModal()
+    return () => dialog.close()
+  }, [selectedImage])
+
   if (!project) return <Navigate to="/" replace />
   const index = projects.findIndex((p) => p.slug === project.slug)
   const next = projects[(index + 1) % projects.length]
@@ -76,14 +86,28 @@ export function Work() {
         {project.gallery?.length
           ? project.gallery.map((image, i) => (
               <Reveal key={image.src} delay={i * 0.1}>
-                <Parallax
-                  src={image.src}
-                  alt={image.alt}
-                  className="aspect-[2/1] rounded-image"
-                  strength={3}
-                  fit="contain"
-                  aspectRatio={image.aspectRatio}
-                />
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Enlarge image: ${image.alt}`}
+                  className="cursor-zoom-in"
+                  onClick={() => setSelectedImage(image)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault()
+                      setSelectedImage(image)
+                    }
+                  }}
+                >
+                  <Parallax
+                    src={image.src}
+                    alt={image.alt}
+                    className="aspect-[2/1] rounded-image"
+                    strength={3}
+                    fit="contain"
+                    aspectRatio={image.aspectRatio}
+                  />
+                </div>
               </Reveal>
             ))
           : [0, 1].map((i) => (
@@ -92,6 +116,39 @@ export function Work() {
               </Reveal>
             ))}
       </div>
+
+      <dialog
+        ref={imageDialog}
+        aria-label={selectedImage?.alt}
+        className="fixed inset-0 m-0 h-dvh w-screen max-w-none overflow-hidden border-0 bg-transparent p-0 text-fg backdrop:bg-black/25 backdrop:backdrop-blur-2xl"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) event.currentTarget.close()
+        }}
+        onClose={() => setSelectedImage(null)}
+      >
+        {selectedImage && (
+          <div
+            className="relative flex h-full w-full items-center justify-center p-4 sm:p-10"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) imageDialog.current?.close()
+            }}
+          >
+            <button
+              type="button"
+              aria-label="Close enlarged image"
+              onClick={() => imageDialog.current?.close()}
+              className="absolute right-4 top-4 z-10 grid size-11 place-items-center rounded-full border border-fg/20 bg-bg/70 backdrop-blur-md transition-colors hover:bg-bg sm:right-8 sm:top-8"
+            >
+              <X className="size-5" />
+            </button>
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.alt}
+              className="max-h-full max-w-full rounded-image object-contain shadow-2xl"
+            />
+          </div>
+        )}
+      </dialog>
 
       <Link to={`/work/${next.slug}`} className="group mt-32 block border-t border-line pt-10">
         <p className="mono-label text-faint">Next project</p>
